@@ -27,12 +27,12 @@ func AddUser(ctx context.Context, client *firestore.Client, user model.User) err
 	return err
 }
 
-func logWasteCollection(ctx context.Context, client *firestore.Client, collection model.WasteCollection) error {
+func LogWasteCollection(ctx context.Context, client *firestore.Client, collection model.WasteCollection) error {
 	_, _, err := client.Collection("waste_collections").Add(ctx, collection)
 	return err
 }
 
-func letUser(ctx context.Context, client *firestore.Client, userID string) (*model.User, error) {
+func GetUser(ctx context.Context, client *firestore.Client, userID string) (*model.User, error) {
 	doc, err := client.Collection("users").Doc(userID).Get(ctx)
 	if err != nil {
 		return nil, err
