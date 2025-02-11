@@ -1,16 +1,17 @@
 package model
 
-import (
-	"time"
-
-	"github.com/google/uuid"
-)
+import "time"
 
 type User struct {
-	ID        uuid.UUID  `json:"id"`
-	Username  string     `json:"username"`
-	Email     string     `json:"email"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `json:"deleted_at,omitempty"` // Soft delete field
+	ID      string `firestore:"id"`
+	Name    string `firestore:"name"`
+	Email   string `firestore:"email"`
+	Address string `firestore:"address"`
+}
+
+type WasteCollection struct {
+	UserID         string    `firestore:"user_id"`
+	CollectionDate time.Time `firestore:"collection_date"`
+	WasteType      string    `firestore:"waste_type"`
+	Quantity       float64   `firestore:"quantity"`
 }
