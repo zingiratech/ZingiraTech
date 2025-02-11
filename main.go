@@ -5,28 +5,19 @@ import (
 	"log"
 	"net/http"
 
-	"ZingiraTech/db"
-)
-
-const (
-	firebasConfigFile = "firebaseConfig.json"
-	firebaseDBURL     = "https://your-firebase-project.firebaseio.com"
+	"zingiratech/config"
 )
 
 func main() {
-	err := db.FirebaseDB().Connect()
-
+	app, err := config.Db()
 	if err != nil {
-		log.Println(err)
+		log.Fatal("error getting firebase app: ", err)
 	}
 
-	router := mux.NewRouter()
-
-	// TO DO : Defining API routes
+	defer app.Close()
 
 	port := ":8080"
 
 	fmt.Printf("Server is running on port %s...\n", port)
-	log.Fatal(http.ListenAndServe(port, router))
-
+	log.Fatal(http.ListenAndServe(port, nil))
 }
