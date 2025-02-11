@@ -2,7 +2,7 @@ package config
 
 import (
 	"context"
-	"log"
+	"errors"
 
 	"zingiratech/model"
 
@@ -11,15 +11,19 @@ import (
 	"google.golang.org/api/option"
 )
 
-func Db() (*firebase.App, error) {
-	opt := option.WithCredentialsFile("zingiratech.json")
-
-	app, err := firebase.NewApp(context.Background(), nil, opt)
+func Db(file string) (*firestore.Client, error) {
+	opt := option.WithCredentialsFile(file)
+	ctx := context.Background()
+	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
-		log.Fatalf("error initializing app: %v", err)
-		return nil, err
+		return nil, errors.New("error initializing app\n" + err.Error())
 	}
-	return app, nil
+
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		return nil, errors.New("error initializing firestore client\n" + err.Error())
+	}
+	return client, nil
 }
 
 func AddUser(ctx context.Context, client *firestore.Client, user model.User) error {
