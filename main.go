@@ -4,26 +4,39 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 
 	"zingiratech/config"
+	"zingiratech/model"
 )
 
 func main() {
-	app, err := config.Db()
+	ctx := context.Background()
+	client, err := config.Db("zingiratech.json")
 	if err != nil {
-		log.Fatal("error getting firebase app: ", err)
-	}
-
-	client, err := app.Firestore(context.Background())
-	if err != nil {
-		log.Fatal("error initializing firestore client")
+		log.Fatal(err)
 	}
 
 	defer client.Close()
 
-	port := ":8080"
+	user := model.User{
+		ID:      "testuser123",
+		Name:    "John Doe",
+		Email:   "johndoe@example.com",
+		Address: "Migosi",
+	}
+	err = config.AddUser(ctx, client, user)
 
-	fmt.Printf("Server is running on port %s...\n", port)
-	log.Fatal(http.ListenAndServe(port, nil))
+	if err != nil {
+		log.Fatalf("error adding user: %v", err)
+	} else {
+		fmt.Println("✅ User added successfully!")
+	}
+
+	retrievedUser, err := config.GetUser(ctx, client, user.ID)
+
+	if err != nil {
+		log.Fatalf("Error retrieving user: %v", err)
+	} else {
+		fmt.Printf("🔍 Retrieved user: %+v\n", retrievedUser)
+	}
 }
