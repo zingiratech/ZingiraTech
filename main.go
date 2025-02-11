@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -14,7 +15,12 @@ func main() {
 		log.Fatal("error getting firebase app: ", err)
 	}
 
-	defer app.Close()
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		log.Fatal("error initializing firestore client")
+	}
+
+	defer client.Close()
 
 	port := ":8080"
 
