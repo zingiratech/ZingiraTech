@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickup Schedule Form</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Schedule a Pickup</h2>
+    <form action="/submit-pickup" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{.Name}}" required>
+        <span class="error">{{.Errors.Name}}</span><br>
+
+        <label for="contact">Contact:</label>
+        <input type="text" id="contact" name="contact" value="{{.Contact}}" required>
+        <span class="error">{{.Errors.Contact}}</span><br>
+
+        <label for="date">Pickup Date:</label>
+        <input type="date" id="date" name="date" value="{{.Date}}" required>
+        <span class="error">{{.Errors.Date}}</span><br>
+
+        <label for="time">Pickup Time:</label>
+        <input type="time" id="time" name="time" value="{{.Time}}" required>
+        <span class="error">{{.Errors.Time}}</span><br>
+
+        <label for="location">Pickup Location:</label>
+        <input type="text" id="location" name="location" value="{{.Location}}" required>
+        <span class="error">{{.Errors.Location}}</span><br>
+
+        <label for="wasteType">Type of Waste:</label>
+        <input type="text" id="wasteType" name="wasteType" value="{{.WasteType}}" required>
+        <span class="error">{{.Errors.WasteType}}</span><br>
+
+        <label for="comments">Description:</label>
+        <textarea id="comments" name="comments">{{.Comments}}</textarea><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{.Email}}" required>
+        <span class="error">{{.Errors.Email}}</span><br>
+
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
